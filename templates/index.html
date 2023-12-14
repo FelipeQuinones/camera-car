@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Controller</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Car Controller</h1>
+
+    <button onclick="moveCar('forward')">Move Forward</button>
+    <button onclick="moveCar('backward')">Move Backward</button>
+    <button onclick="moveCar('stop')">Stop</button>
+
+    <h2>Camera Feed</h2>
+    <img id="camera-feed" src="/capture" alt="Camera feed">
+
+    <script>
+        function moveCar(direction) {
+            $.get('/move/' + direction);
+        }
+
+        // Refresh the camera feed every second
+        setInterval(function() {
+            $('#camera-feed').attr('src', '/capture?' + new Date().getTime());
+        }, 1000);
+    </script>
+</body>
+</html>
