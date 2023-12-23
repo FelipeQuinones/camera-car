@@ -14,6 +14,8 @@ in4 = 22
 
 GPIO.setup(in1, GPIO.OUT)
 GPIO.setup(in2, GPIO.OUT)
+GPIO.setup(in3, GPIO.OUT)
+GPIO.setup(in4, GPIO.OUT)
 
 app = Flask(__name__)
 #camera = PiCamera()
