@@ -7,16 +7,31 @@
 <body>
     <h1>Car Controller</h1>
 
-    <button onclick="moveCar('forward')">Move Forward</button>
-    <button onclick="moveCar('backward')">Move Backward</button>
-    <button onclick="moveCar('stop')">Stop</button>
+    <div style="text-align: center;">
+        <button onmousedown="startMoveCar('forward')" onmouseup="stopMoveCar()">Move Forward</button>
+        <br>
+        <button onmousedown="startMoveCar('left')" onmouseup="stopMoveCar()">Turn Left</button>
+        <button onmousedown="startMoveCar('stop')" onmouseup="stopMoveCar()">Stop</button>
+        <button onmousedown="startMoveCar('right')" onmouseup="stopMoveCar()">Turn Right</button>
+        <br>
+        <button onmousedown="startMoveCar('backward')" onmouseup="stopMoveCar()">Move Backward</button>
+    </div>
 
     <h2>Camera Feed</h2>
     <img id="camera-feed" src="/capture" alt="Camera feed">
 
     <script>
-        function moveCar(direction) {
-            $.get('/move/' + direction);
+        var moveInterval;
+
+        function startMoveCar(direction) {
+            moveInterval = setInterval(function() {
+                $.get('/move/' + direction);
+            }, 100);
+        }
+
+        function stopMoveCar() {
+            clearInterval(moveInterval);
+            $.get('/move/stop');
         }
 
         // Refresh the camera feed every second

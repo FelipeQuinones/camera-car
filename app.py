@@ -6,14 +6,37 @@ from io import BytesIO
 GPIO.setwarnings(False)  # Disable GPIO warnings
 GPIO.setmode(GPIO.BCM)
 
-motor1 = 23
-motor2 = 24
+in1 = 23
+in2 = 24
+in3 = 27
+in4 = 22
 
-GPIO.setup(motor1, GPIO.OUT)
-GPIO.setup(motor2, GPIO.OUT)
+
+GPIO.setup(in1, GPIO.OUT)
+GPIO.setup(in2, GPIO.OUT)
 
 app = Flask(__name__)
 #camera = PiCamera()
+
+def forward():
+    GPIO.output(in1, GPIO.HIGH)
+    GPIO.output(in2, GPIO.LOW)
+
+def backward():
+    GPIO.output(in1, GPIO.LOW)
+    GPIO.output(in2, GPIO.HIGH)
+
+def stop():
+    GPIO.output(in1, GPIO.LOW)
+    GPIO.output(in2, GPIO.LOW)
+
+def left():
+    GPIO.output(in3, GPIO.HIGH)
+    GPIO.output(in4, GPIO.LOW)
+
+def right():
+    GPIO.output(in3, GPIO.LOW)
+    GPIO.output(in4, GPIO.HIGH)
 
 @app.route('/')
 def index():
@@ -31,14 +54,11 @@ def capture_image():
 def move_car(direction):
     # Control car movement
     if direction == 'forward':
-        GPIO.output(motor1, GPIO.HIGH)
-        GPIO.output(motor2, GPIO.LOW)
+        forward()
     elif direction == 'backward':
-        GPIO.output(motor1, GPIO.LOW)
-        GPIO.output(motor2, GPIO.HIGH)
+        backward()
     elif direction == 'stop':
-        GPIO.output(motor1, GPIO.LOW)
-        GPIO.output(motor2, GPIO.LOW)
+        stop()
     else:
         return 'Invalid direction', 400
     return 'Car moved ' + direction, 200
