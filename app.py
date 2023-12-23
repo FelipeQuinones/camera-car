@@ -57,6 +57,10 @@ def move_car(direction):
         forward()
     elif direction == 'backward':
         backward()
+    elif direction == 'left':
+        left()
+    elif direction == 'right':
+        right()
     elif direction == 'stop':
         stop()
     else:
