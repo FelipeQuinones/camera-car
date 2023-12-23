@@ -4,6 +4,14 @@
     <title>Car Controller</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
         #joystick {
             position: relative;
             width: 200px;
@@ -38,22 +46,33 @@
         var handle = document.getElementById('handle');
         var moveInterval;
 
-        joystick.addEventListener('mousedown', function(event) {
+        joystick.addEventListener('mousedown', startMove);
+        joystick.addEventListener('touchstart', startMove);
+
+        document.addEventListener('mouseup', stopMove);
+        document.addEventListener('touchend', stopMove);
+
+        function startMove(event) {
+            event.preventDefault();
             moveHandle(event);
             document.addEventListener('mousemove', moveHandle);
-        });
+            document.addEventListener('touchmove', moveHandle);
+        }
 
-        document.addEventListener('mouseup', function() {
+        function stopMove() {
             handle.style.top = '50%';
             handle.style.left = '50%';
             document.removeEventListener('mousemove', moveHandle);
+            document.removeEventListener('touchmove', moveHandle);
             stopMoveCar();
-        });
+        }
 
         function moveHandle(event) {
             var rect = joystick.getBoundingClientRect();
-            var x = event.clientX - rect.left - handle.offsetWidth / 2;
-            var y = event.clientY - rect.top - handle.offsetHeight / 2;
+            var clientX = event.clientX || event.touches[0].clientX;
+            var clientY = event.clientY || event.touches[0].clientY;
+            var x = clientX - rect.left - handle.offsetWidth / 2;
+            var y = clientY - rect.top - handle.offsetHeight / 2;
             var direction = Math.atan2(y - joystick.offsetHeight / 2, x - joystick.offsetWidth / 2);
             if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
                 startMoveCar('right');
