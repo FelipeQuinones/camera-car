@@ -4,16 +4,11 @@
     <title>Car Controller</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
         #joystick {
-            position: relative;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             width: 200px;
             height: 200px;
             background-color: #ddd;
@@ -34,10 +29,10 @@
 <body>
     <h1>Car Controller</h1>
 
-    <br>
-    
     <h2>Joystick</h2>
     <p>Click and drag the joystick to move the car.</p>
+
+    <br>
 
     <div id="joystick">
         <div id="handle"></div>
