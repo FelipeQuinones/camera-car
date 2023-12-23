@@ -5,10 +5,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         #joystick {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
             width: 200px;
             height: 200px;
             background-color: #ddd;
@@ -31,8 +31,6 @@
 
     <h2>Joystick</h2>
     <p>Click and drag the joystick to move the car.</p>
-
-    <br>
 
     <div id="joystick">
         <div id="handle"></div>
