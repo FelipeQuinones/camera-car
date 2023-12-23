@@ -46,7 +46,7 @@ def move_car(direction):
 
 if __name__ == '__main__':
     try:
-        app.run(host='0.0.0.0', port=8000)
+        app.run(host='0.0.0.0', port=80)
     finally:
         pass
         GPIO.cleanup()  # cleanup GPIO settings when the app is terminated
