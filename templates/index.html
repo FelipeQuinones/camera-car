@@ -3,27 +3,73 @@
 <head>
     <title>Car Controller</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        #joystick {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background-color: #ddd;
+            border-radius: 50%;
+        }
+        #handle {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #bbb;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
 </head>
 <body>
     <h1>Car Controller</h1>
 
-    <div style="text-align: center;">
-        <button onmousedown="startMoveCar('forward')" onmouseup="stopMoveCar()">Move Forward</button>
-        <br>
-        <button onmousedown="startMoveCar('left')" onmouseup="stopMoveCar()">Turn Left</button>
-        <button onmousedown="startMoveCar('stop')" onmouseup="stopMoveCar()">Stop</button>
-        <button onmousedown="startMoveCar('right')" onmouseup="stopMoveCar()">Turn Right</button>
-        <br>
-        <button onmousedown="startMoveCar('backward')" onmouseup="stopMoveCar()">Move Backward</button>
+    <div id="joystick">
+        <div id="handle"></div>
     </div>
 
     <h2>Camera Feed</h2>
     <img id="camera-feed" src="/capture" alt="Camera feed">
 
     <script>
+        var joystick = document.getElementById('joystick');
+        var handle = document.getElementById('handle');
         var moveInterval;
 
+        joystick.addEventListener('mousedown', function(event) {
+            moveHandle(event);
+            document.addEventListener('mousemove', moveHandle);
+        });
+
+        document.addEventListener('mouseup', function() {
+            handle.style.top = '50%';
+            handle.style.left = '50%';
+            document.removeEventListener('mousemove', moveHandle);
+            stopMoveCar();
+        });
+
+        function moveHandle(event) {
+            var rect = joystick.getBoundingClientRect();
+            var x = event.clientX - rect.left - handle.offsetWidth / 2;
+            var y = event.clientY - rect.top - handle.offsetHeight / 2;
+            var direction = Math.atan2(y - joystick.offsetHeight / 2, x - joystick.offsetWidth / 2);
+            if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
+                startMoveCar('right');
+            } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
+                startMoveCar('backward');
+            } else if (direction < -Math.PI / 4 && direction > -3 * Math.PI / 4) {
+                startMoveCar('forward');
+            } else {
+                startMoveCar('left');
+            }
+            handle.style.top = y + 'px';
+            handle.style.left = x + 'px';
+        }
+
         function startMoveCar(direction) {
+            clearInterval(moveInterval);
             moveInterval = setInterval(function() {
                 $.get('/move/' + direction);
             }, 100);
