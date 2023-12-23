@@ -4,6 +4,12 @@
     <title>Car Controller</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
+        .joystick-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
         #joystick {
             display: flex;
             justify-content: center;
@@ -32,8 +38,10 @@
     <h2>Joystick</h2>
     <p>Click and drag the joystick to move the car.</p>
 
-    <div id="joystick">
-        <div id="handle"></div>
+    <div class="joystick-container">
+        <div id="joystick">
+            <div id="handle"></div>
+        </div>
     </div>
 
     <h2>Camera Feed</h2>
