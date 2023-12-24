@@ -60,11 +60,11 @@ def capture_image():
             camera.capture(image_stream, 'jpeg')
         except picamera.exc.PiCameraMMALError:
             # If capturing the image fails, return a default image
-            with open('default.jpg', 'rb') as f:
+            with open('default.png', 'rb') as f:
                 image_stream.write(f.read())
     else:
         # If the camera is not available, return a default image
-        with open('default.jpg', 'rb') as f:
+        with open('default.png', 'rb') as f:
             image_stream.write(f.read())
     image_stream.seek(0)
     return send_file(image_stream, mimetype='image/jpeg')
