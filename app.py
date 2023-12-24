@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 from flask import Flask, send_file, render_template
-#from picamera import PiCamera
+from picamera import PiCamera
 from io import BytesIO
 
 GPIO.setwarnings(False)  # Disable GPIO warnings
@@ -18,7 +18,7 @@ GPIO.setup(in3, GPIO.OUT)
 GPIO.setup(in4, GPIO.OUT)
 
 app = Flask(__name__)
-#camera = PiCamera()
+camera = PiCamera()
 
 def forward():
     GPIO.output(in1, GPIO.HIGH)
@@ -46,9 +46,14 @@ def index():
 
 @app.route('/capture')
 def capture_image():
-    # Capture image from camera
     image_stream = BytesIO()
-    #camera.capture(image_stream, 'jpeg')
+    try:
+        # Try to capture an image from the camera
+        camera.capture(image_stream, 'jpeg')
+    except picamera.exc.PiCameraMMALError:
+        # If the camera is not available, return a default image
+        with open('default.jpg', 'rb') as f:
+            image_stream.write(f.read())
     image_stream.seek(0)
     return send_file(image_stream, mimetype='image/jpeg')
 
