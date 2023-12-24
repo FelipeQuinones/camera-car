@@ -1,7 +1,9 @@
-import RPi.GPIO as GPIO
-from flask import Flask, send_file, render_template
+import picamera
 from picamera import PiCamera
+from picamera.exc import PiCameraError, PiCameraMMALError
+from flask import Flask, render_template, send_file
 from io import BytesIO
+import RPi.GPIO as GPIO
 
 GPIO.setwarnings(False)  # Disable GPIO warnings
 GPIO.setmode(GPIO.BCM)
@@ -21,7 +23,7 @@ app = Flask(__name__)
 
 try:
     camera = PiCamera()
-except picamera.exc.PiCameraError:
+except PiCameraError:
     print("Camera is not enabled or not available.")
     camera = None
 
