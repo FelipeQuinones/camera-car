@@ -18,7 +18,12 @@ GPIO.setup(in3, GPIO.OUT)
 GPIO.setup(in4, GPIO.OUT)
 
 app = Flask(__name__)
-camera = PiCamera()
+
+try:
+    camera = PiCamera()
+except picamera.exc.PiCameraError:
+    print("Camera is not enabled or not available.")
+    camera = None
 
 def forward():
     GPIO.output(in1, GPIO.HIGH)
@@ -47,10 +52,15 @@ def index():
 @app.route('/capture')
 def capture_image():
     image_stream = BytesIO()
-    try:
-        # Try to capture an image from the camera
-        camera.capture(image_stream, 'jpeg')
-    except picamera.exc.PiCameraMMALError:
+    if camera is not None:
+        try:
+            # Try to capture an image from the camera
+            camera.capture(image_stream, 'jpeg')
+        except picamera.exc.PiCameraMMALError:
+            # If capturing the image fails, return a default image
+            with open('default.jpg', 'rb') as f:
+                image_stream.write(f.read())
+    else:
         # If the camera is not available, return a default image
         with open('default.jpg', 'rb') as f:
             image_stream.write(f.read())
