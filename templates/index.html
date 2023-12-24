@@ -45,7 +45,7 @@
     </div>
 
     <h2>Camera Feed</h2>
-    <img id="camera-feed" src="/capture" alt="Camera feed" onerror="handleCameraError(this);">
+    <img id="camera-feed" src="/capture" alt="Camera feed">
 
     <script>
         var joystick = document.getElementById('joystick');
@@ -103,13 +103,6 @@
         function stopMoveCar() {
             clearInterval(moveInterval);
             $.get('/move/stop');
-        }
-
-        function handleCameraError(imageElement) {
-            // Replace the camera feed with a default image
-            imageElement.src = '/default.png';
-            // Or display an error message
-            // imageElement.alt = 'Camera feed not available';
         }
 
         // Refresh the camera feed every second
