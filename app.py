@@ -56,6 +56,8 @@ def capture_image():
     image_stream = BytesIO()
     if camera is not None:
         try:
+            # Set the resolution before capturing an image
+            camera.resolution = (640, 480)
             # Try to capture an image from the camera
             camera.capture(image_stream, 'jpeg')
         except picamera.exc.PiCameraMMALError:
