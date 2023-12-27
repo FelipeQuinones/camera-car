@@ -23,6 +23,7 @@ app = Flask(__name__)
 
 try:
     camera = PiCamera()
+    camera.resolution = (640, 480)
 except PiCameraError:
     print("Camera is not enabled or not available.")
     camera = None
@@ -30,22 +31,29 @@ except PiCameraError:
 def forward():
     GPIO.output(in1, GPIO.HIGH)
     GPIO.output(in2, GPIO.LOW)
+    print("forward")
 
 def backward():
     GPIO.output(in1, GPIO.LOW)
     GPIO.output(in2, GPIO.HIGH)
+    print("backward")
 
 def stop():
     GPIO.output(in1, GPIO.LOW)
     GPIO.output(in2, GPIO.LOW)
+    GPIO.output(in3, GPIO.LOW)
+    GPIO.output(in4, GPIO.LOW)
+    print("stop")
 
 def left():
     GPIO.output(in3, GPIO.HIGH)
     GPIO.output(in4, GPIO.LOW)
+    print("left")
 
 def right():
     GPIO.output(in3, GPIO.LOW)
     GPIO.output(in4, GPIO.HIGH)
+    print("right")
 
 @app.route('/')
 def index():
@@ -56,6 +64,7 @@ def capture_image():
     image_stream = BytesIO()
     if camera is not None:
         try:
+            camera.resolution
             # Try to capture an image from the camera
             camera.capture(image_stream, 'jpeg')
         except picamera.exc.PiCameraMMALError:
