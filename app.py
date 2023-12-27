@@ -66,7 +66,7 @@ def capture_image():
         try:
             camera.resolution
             # Try to capture an image from the camera
-            camera.capture(image_stream, 'jpeg')
+            camera.capture(image_stream, 'jpeg', quality=10)
         except picamera.exc.PiCameraMMALError:
             # If capturing the image fails, return a default image
             with open('default.png', 'rb') as f:
