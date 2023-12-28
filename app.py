@@ -101,8 +101,14 @@ class Camera(object):
 
     def get_frame(self):
         success, image = self.video.read()
-        _, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes()
+        if success:
+            # If reading the frame was successful, encode the image
+            _, jpeg = cv2.imencode('.jpg', image)
+            return jpeg.tobytes()
+        else:
+            # If reading the frame was not successful, return a default image
+            with open('default.jpg', 'rb') as f:
+                return f.read()
 
 if __name__ == '__main__':
     try:
