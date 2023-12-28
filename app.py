@@ -63,19 +63,7 @@ def gen(camera):
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-# class to capture image
-class Camera(object):
-    def __init__(self):
-        self.video = cv2.VideoCapture(0)  # Use 0 for the default camera
-
-    def __del__(self):
-        self.video.release()
-
-    def get_frame(self):
-        success, image = self.video.read()
-        _, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes()
-
+############################################################################################################
 # route for serving video stream
 @app.route('/')
 def index():
@@ -101,6 +89,20 @@ def move_car(direction):
     else:
         return 'Invalid direction', 400
     return 'Car moved ' + direction, 200
+
+############################################################################################################
+# class to capture image
+class Camera(object):
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)  # Use 0 for the default camera
+
+    def __del__(self):
+        self.video.release()
+
+    def get_frame(self):
+        success, image = self.video.read()
+        _, jpeg = cv2.imencode('.jpg', image)
+        return jpeg.tobytes()
 
 if __name__ == '__main__':
     try:
