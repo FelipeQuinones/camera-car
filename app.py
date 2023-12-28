@@ -1,9 +1,10 @@
 import picamera
 from picamera import PiCamera
 from picamera.exc import PiCameraError, PiCameraMMALError
-from flask import Flask, render_template, send_file
+from flask import Flask, render_template, Response
 from io import BytesIO
 import RPi.GPIO as GPIO
+import cv2
 
 GPIO.setwarnings(False)  # Disable GPIO warnings
 GPIO.setmode(GPIO.BCM)
@@ -28,6 +29,7 @@ except PiCameraError:
     print("Camera is not enabled or not available.")
     camera = None
 
+# functions to control car movement
 def forward():
     GPIO.output(in1, GPIO.HIGH)
     GPIO.output(in2, GPIO.LOW)
@@ -55,27 +57,35 @@ def right():
     GPIO.output(in4, GPIO.HIGH)
     print("right")
 
+# function to capture image
+def gen(camera):
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+# class to capture image
+class Camera(object):
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)  # Use 0 for the default camera
+
+    def __del__(self):
+        self.video.release()
+
+    def get_frame(self):
+        success, image = self.video.read()
+        _, jpeg = cv2.imencode('.jpg', image)
+        return jpeg.tobytes()
+
+
+# route for serving video stream
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/capture')
-def capture_image():
-    image_stream = BytesIO()
-    if camera is not None:
-        try:
-            # Try to capture an image from the camera
-            camera.capture(image_stream, 'jpeg', quality=5)
-        except picamera.exc.PiCameraMMALError:
-            # If capturing the image fails, return a default image
-            with open('default.png', 'rb') as f:
-                image_stream.write(f.read())
-    else:
-        # If the camera is not available, return a default image
-        with open('default.png', 'rb') as f:
-            image_stream.write(f.read())
-    image_stream.seek(0)
-    return send_file(image_stream, mimetype='image/jpeg')
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen(Camera()), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/move/<direction>')
 def move_car(direction):
