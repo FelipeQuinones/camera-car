@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Controller</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
@@ -45,7 +47,7 @@
     </div>
 
     <h2>Camera Feed</h2>
-    <img id="camera-feed" src="/capture" alt="Camera feed">
+    <img src="{{ url_for('video_feed') }}" style="width:100%;" />
 
     <script>
         var joystick = document.getElementById('joystick');
@@ -104,11 +106,6 @@
             clearInterval(moveInterval);
             $.get('/move/stop');
         }
-
-        // Refresh the camera feed every second
-        setInterval(function() {
-            $('#camera-feed').attr('src', '/capture?' + new Date().getTime());
-        }, 650);
     </script>
 </body>
 </html>
