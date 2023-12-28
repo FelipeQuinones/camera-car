@@ -1,6 +1,6 @@
-import picamera
-from picamera import PiCamera
-from picamera.exc import PiCameraError, PiCameraMMALError
+#import picamera
+#from picamera import PiCamera
+#from picamera.exc import PiCameraError, PiCameraMMALError
 from flask import Flask, render_template, Response
 from io import BytesIO
 import RPi.GPIO as GPIO
