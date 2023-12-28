@@ -14,7 +14,6 @@ in2 = 24
 in3 = 27
 in4 = 22
 
-
 GPIO.setup(in1, GPIO.OUT)
 GPIO.setup(in2, GPIO.OUT)
 GPIO.setup(in3, GPIO.OUT)
@@ -69,23 +68,13 @@ class Camera(object):
     def __init__(self):
         self.video = cv2.VideoCapture(0)  # Use 0 for the default camera
 
-        if not self.video.isOpened():
-            raise Exception("Could not open video device")
-
     def __del__(self):
         self.video.release()
 
     def get_frame(self):
         success, image = self.video.read()
-        if not success or image is None:
-            raise Exception("Failed to read frame from the camera")
-
         _, jpeg = cv2.imencode('.jpg', image)
-        if not _:
-            raise Exception("Failed to encode frame to JPEG")
-
         return jpeg.tobytes()
-
 
 # route for serving video stream
 @app.route('/')
