@@ -1,8 +1,4 @@
-#import picamera
-#from picamera import PiCamera
-#from picamera.exc import PiCameraError, PiCameraMMALError
 from flask import Flask, render_template, Response
-from io import BytesIO
 import RPi.GPIO as GPIO
 import cv2
 
@@ -20,13 +16,6 @@ GPIO.setup(in3, GPIO.OUT)
 GPIO.setup(in4, GPIO.OUT)
 
 app = Flask(__name__)
-
-#try:
-#    camera = PiCamera()
-#    camera.resolution = (640, 480)
-#except PiCameraError:
-#    print("Camera is not enabled or not available.")
-#    camera = None
 
 # functions to control car movement
 def forward():
