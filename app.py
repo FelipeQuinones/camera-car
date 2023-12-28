@@ -21,12 +21,12 @@ GPIO.setup(in4, GPIO.OUT)
 
 app = Flask(__name__)
 
-try:
-    camera = PiCamera()
-    camera.resolution = (640, 480)
-except PiCameraError:
-    print("Camera is not enabled or not available.")
-    camera = None
+#try:
+#    camera = PiCamera()
+#    camera.resolution = (640, 480)
+#except PiCameraError:
+#    print("Camera is not enabled or not available.")
+#    camera = None
 
 # functions to control car movement
 def forward():
