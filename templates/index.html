@@ -125,16 +125,23 @@
             var y = clientY - rect.top - handle2.offsetHeight / 2; // Use handle2 instead of handle
             var direction = Math.atan2(y - joystick2.offsetHeight / 2, x - joystick2.offsetWidth / 2); // Use joystick2 instead of joystick
             if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
-                $.get('/camera/right');
+                startMoveCam('right');
             } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
                 $.get('/camera/down');
             } else if (direction < -Math.PI / 4 && direction > -3 * Math.PI / 4) {
                 $.get('/camera/up');
             } else {
-                $.get('/camera/left');
+                startMoveCam('left');
             }
             handle2.style.top = y + 'px';
             handle2.style.left = x + 'px';
+        }
+
+        function startMoveCam(direction) {
+            clearInterval(moveInterval);
+            moveInterval = setInterval(function() {
+                $.get('/camera/' + direction);
+            }, 100);
         }
 
         function startMove2(event) {
