@@ -39,14 +39,14 @@
     <img src="{{ url_for('video_feed') }}" style="width:100%;" />
 
     <div class="joystick-container">
-        <div id="joystick2" class="joystick">
-            <div id="handle2" class="handle"></div>
+        <div id="joystick" class="joystick">
+            <div id="handle" class="handle"></div>
         </div>
     </div>
 
     <div class="joystick-container">
-        <div id="joystick" class="joystick">
-            <div id="handle" class="handle"></div>
+        <div id="joystick2" class="joystick">
+            <div id="handle2" class="handle"></div>
         </div>
     </div>
 
@@ -58,7 +58,6 @@
         var joystick2 = document.getElementById('joystick2');
         var handle2 = document.getElementById('handle2');
         var moveInterval;
-        var moveInterval2;
 
         joystick.addEventListener('mousedown', startMove);
         joystick.addEventListener('touchstart', startMove);
@@ -139,8 +138,8 @@
         }
 
         function startMoveCam(direction) {
-            clearInterval(moveInterval2);  // Use moveInterval2 instead of moveInterval
-            moveInterval2 = setInterval(function() {
+            clearInterval(moveInterval);
+            moveInterval = setInterval(function() {
                 $.get('/camera/' + direction);
             }, 100);
         }
