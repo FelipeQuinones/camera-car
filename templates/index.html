@@ -139,6 +139,13 @@
             handle2.style.top = y + 'px';
             handle2.style.left = x + 'px';
         }
+
+        function startMove2(event) {
+            event.preventDefault();
+            moveHandle2(event);
+            document.addEventListener('mousemove', moveHandle2);
+            document.addEventListener('touchmove', moveHandle2);
+        }
     </script>
 </body>
 </html>
