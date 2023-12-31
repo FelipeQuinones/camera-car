@@ -136,6 +136,8 @@ def move_car(direction):
 
 @app.route('/camera/<direction>')
 def move_camera(direction):
+    duty_cycle1 = 7.5    # Duty cycle (percentage)
+    duty_cycle2 = 7.5    # Duty cycle (percentage)
     # Control camera movement
     if direction == 'up':
         duty_cycle1 = cam_up(duty_cycle1)
