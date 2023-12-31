@@ -115,13 +115,18 @@
             }, 100);
         }
 
+        function stopMoveCar() {
+            clearInterval(moveInterval);
+            $.get('/move/stop');
+        }
+
         function moveHandle2(event) {
-            var rect = joystick.getBoundingClientRect();
+            var rect = joystick2.getBoundingClientRect(); // Use joystick2 instead of joystick
             var clientX = event.clientX || event.touches[0].clientX;
             var clientY = event.clientY || event.touches[0].clientY;
-            var x = clientX - rect.left - handle.offsetWidth / 2;
-            var y = clientY - rect.top - handle.offsetHeight / 2;
-            var direction = Math.atan2(y - joystick.offsetHeight / 2, x - joystick.offsetWidth / 2);
+            var x = clientX - rect.left - handle2.offsetWidth / 2; // Use handle2 instead of handle
+            var y = clientY - rect.top - handle2.offsetHeight / 2; // Use handle2 instead of handle
+            var direction = Math.atan2(y - joystick2.offsetHeight / 2, x - joystick2.offsetWidth / 2); // Use joystick2 instead of joystick
             if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
                 $.get('/camera/right');
             } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
@@ -133,11 +138,6 @@
             }
             handle2.style.top = y + 'px';
             handle2.style.left = x + 'px';
-        }
-
-        function stopMoveCar() {
-            clearInterval(moveInterval);
-            $.get('/move/stop');
         }
     </script>
 </body>

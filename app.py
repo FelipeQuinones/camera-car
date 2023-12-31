@@ -39,29 +39,24 @@ pwm2.start(duty_cycle2)
 def forward():
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
-    print("forward")
 
 def backward():
     GPIO.output(IN1, GPIO.LOW)
     GPIO.output(IN2, GPIO.HIGH)
-    print("backward")
 
 def stop():
     GPIO.output(IN1, GPIO.LOW)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.LOW)
-    print("stop")
 
 def left():
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
-    print("left")
 
 def right():
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.HIGH)
-    print("right")
 
 # functions to control camera movement
 def cam_up(duty_cycle):
@@ -70,7 +65,6 @@ def cam_up(duty_cycle):
     if duty_cycle > 12.5:
         duty_cycle = 12.5
     pwm1.ChangeDutyCycle(duty_cycle)  # 0 degrees
-    print("camera up")
     return duty_cycle
 
 def cam_down(duty_cycle):
@@ -79,7 +73,6 @@ def cam_down(duty_cycle):
     if duty_cycle < 2.5:
         duty_cycle = 2.5
     pwm1.ChangeDutyCycle(duty_cycle)  # 0 degrees
-    print("camera down")
     return duty_cycle
 
 def cam_left(duty_cycle):
@@ -88,7 +81,6 @@ def cam_left(duty_cycle):
     if duty_cycle > 12.5:
         duty_cycle = 12.5
     pwm2.ChangeDutyCycle(duty_cycle)  # 0 degrees
-    print("camera left")
     return duty_cycle
 
 def cam_right(duty_cycle):
@@ -97,7 +89,6 @@ def cam_right(duty_cycle):
     if duty_cycle < 2.5:
         duty_cycle = 2.5
     pwm2.ChangeDutyCycle(duty_cycle)  # 0 degrees
-    print("camera right")
     return duty_cycle
 
 # function to capture image
