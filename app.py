@@ -2,6 +2,9 @@ from flask import Flask, render_template, Response
 import RPi.GPIO as GPIO
 import cv2
 
+# Start the Flask app
+app = Flask(__name__)
+
 GPIO.setwarnings(False)  # Disable GPIO warnings
 GPIO.setmode(GPIO.BCM)
 
@@ -31,8 +34,6 @@ pwm1.start(duty_cycle1)
 pwm2 = GPIO.PWM(SERVO2, pwm_frequency)
 pwm2.start(duty_cycle2)
 
-# Start the Flask app
-app = Flask(__name__)
 
 # functions to control car movement
 def forward():
@@ -63,37 +64,41 @@ def right():
     print("right")
 
 # functions to control camera movement
-def cam_up():
+def cam_up(duty_cycle):
     # Change the duty cycle to move the servo
-    duty_cycle1 += 1
-    if duty_cycle1 > 12.5:
-        duty_cycle1 = 12.5
-    pwm1.ChangeDutyCycle(duty_cycle1)  # 0 degrees
+    duty_cycle += 1
+    if duty_cycle > 12.5:
+        duty_cycle = 12.5
+    pwm1.ChangeDutyCycle(duty_cycle)  # 0 degrees
     print("camera up")
+    return duty_cycle
 
-def cam_down():
+def cam_down(duty_cycle):
     # Change the duty cycle to move the servo
-    duty_cycle1 -= 1
-    if duty_cycle1 < 2.5:
-        duty_cycle1 = 2.5
-    pwm1.ChangeDutyCycle(duty_cycle1)  # 0 degrees
+    duty_cycle -= 1
+    if duty_cycle < 2.5:
+        duty_cycle = 2.5
+    pwm1.ChangeDutyCycle(duty_cycle)  # 0 degrees
     print("camera down")
+    return duty_cycle
 
-def cam_left():
+def cam_left(duty_cycle):
     # Change the duty cycle to move the servo
-    duty_cycle2 += 1
-    if duty_cycle2 > 12.5:
-        duty_cycle2 = 12.5
-    pwm2.ChangeDutyCycle(duty_cycle2)  # 0 degrees
+    duty_cycle += 1
+    if duty_cycle > 12.5:
+        duty_cycle = 12.5
+    pwm2.ChangeDutyCycle(duty_cycle)  # 0 degrees
     print("camera left")
+    return duty_cycle
 
-def cam_right():
+def cam_right(duty_cycle):
     # Change the duty cycle to move the servo
-    duty_cycle2 -= 1
-    if duty_cycle2 < 2.5:
-        duty_cycle2 = 2.5
-    pwm2.ChangeDutyCycle(duty_cycle2)  # 0 degrees
+    duty_cycle -= 1
+    if duty_cycle < 2.5:
+        duty_cycle = 2.5
+    pwm2.ChangeDutyCycle(duty_cycle)  # 0 degrees
     print("camera right")
+    return duty_cycle
 
 # function to capture image
 def gen(camera):
@@ -133,13 +138,13 @@ def move_car(direction):
 def move_camera(direction):
     # Control camera movement
     if direction == 'up':
-        cam_up()
+        duty_cycle1 = cam_up(duty_cycle1)
     elif direction == 'down':
-        cam_down()
+        duty_cycle1 = cam_down(duty_cycle1)
     elif direction == 'left':
-        cam_left()
+        duty_cycle2 = cam_left(duty_cycle2)
     elif direction == 'right':
-        cam_right()
+        duty_cycle2 = cam_right(duty_cycle2)
     else:
         return 'Invalid direction', 400
     return 'Camera moved ' + direction, 200

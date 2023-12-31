@@ -106,7 +106,12 @@
             handle.style.left = x + 'px';
         }
 
-        
+        function startMoveCar(direction) {
+            clearInterval(moveInterval);
+            moveInterval = setInterval(function() {
+                $.get('/move/' + direction);
+            }, 100);
+        }
 
         function moveHandle2(event) {
             var rect = joystick.getBoundingClientRect();
