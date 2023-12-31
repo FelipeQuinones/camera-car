@@ -40,7 +40,9 @@
 </head>
 <body>
 
-    <img src="{{ url_for('video_feed') }}" style="width:75%;" />
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <img src="{{ url_for('video_feed') }}" style="width:75%;" />
+    </div>
 
     <div class="joystick-container-container">
         <div class="joystick-container">
