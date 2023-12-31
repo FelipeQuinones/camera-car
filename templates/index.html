@@ -94,13 +94,13 @@
             var y = clientY - rect.top - handle.offsetHeight / 2;
             var direction = Math.atan2(y - joystick.offsetHeight / 2, x - joystick.offsetWidth / 2);
             if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
-                startMoveCar('right');
+                $.get('/move/right');
             } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
-                startMoveCar('backward');
+                $.get('/move/backward');
             } else if (direction < -Math.PI / 4 && direction > -3 * Math.PI / 4) {
-                startMoveCar('forward');
+                $.get('/move/forward');
             } else {
-                startMoveCar('left');
+                $.get('/move/left');
             }
             handle.style.top = y + 'px';
             handle.style.left = x + 'px';
