@@ -5,60 +5,94 @@ import cv2
 GPIO.setwarnings(False)  # Disable GPIO warnings
 GPIO.setmode(GPIO.BCM)
 
-in1 = 23
-in2 = 24
-in3 = 27
-in4 = 22
-servo1 = 5
-servo2 = 6
+IN1 = 23
+IN2 = 24
+IN3 = 27
+IN4 = 22
+SERVO1 = 5
+SERVO2 = 6
 
-GPIO.setup(in1, GPIO.OUT)
-GPIO.setup(in2, GPIO.OUT)
-GPIO.setup(in3, GPIO.OUT)
-GPIO.setup(in4, GPIO.OUT)
-GPIO.setup(servo1, GPIO.OUT)
+GPIO.setup(IN1, GPIO.OUT)
+GPIO.setup(IN2, GPIO.OUT)
+GPIO.setup(IN3, GPIO.OUT)
+GPIO.setup(IN4, GPIO.OUT)
+GPIO.setup(SERVO1, GPIO.OUT)
+GPIO.setup(SERVO2, GPIO.OUT)
 
+# Set PWM parameters
+pwm_frequency = 50  # Frequency in Hz
+duty_cycle1 = 7.5    # Duty cycle (percentage)
+duty_cycle2 = 7.5    # Duty cycle (percentage)
+
+# Start PWM
+pwm1 = GPIO.PWM(SERVO1, pwm_frequency)
+pwm1.start(duty_cycle1)
+
+pwm2 = GPIO.PWM(SERVO2, pwm_frequency)
+pwm2.start(duty_cycle2)
+
+# Start the Flask app
 app = Flask(__name__)
 
 # functions to control car movement
 def forward():
-    GPIO.output(in1, GPIO.HIGH)
-    GPIO.output(in2, GPIO.LOW)
+    GPIO.output(IN1, GPIO.HIGH)
+    GPIO.output(IN2, GPIO.LOW)
     print("forward")
 
 def backward():
-    GPIO.output(in1, GPIO.LOW)
-    GPIO.output(in2, GPIO.HIGH)
+    GPIO.output(IN1, GPIO.LOW)
+    GPIO.output(IN2, GPIO.HIGH)
     print("backward")
 
 def stop():
-    GPIO.output(in1, GPIO.LOW)
-    GPIO.output(in2, GPIO.LOW)
-    GPIO.output(in3, GPIO.LOW)
-    GPIO.output(in4, GPIO.LOW)
+    GPIO.output(IN1, GPIO.LOW)
+    GPIO.output(IN2, GPIO.LOW)
+    GPIO.output(IN3, GPIO.LOW)
+    GPIO.output(IN4, GPIO.LOW)
     print("stop")
 
 def left():
-    GPIO.output(in3, GPIO.HIGH)
-    GPIO.output(in4, GPIO.LOW)
+    GPIO.output(IN3, GPIO.HIGH)
+    GPIO.output(IN4, GPIO.LOW)
     print("left")
 
 def right():
-    GPIO.output(in3, GPIO.LOW)
-    GPIO.output(in4, GPIO.HIGH)
+    GPIO.output(IN3, GPIO.LOW)
+    GPIO.output(IN4, GPIO.HIGH)
     print("right")
 
 # functions to control camera movement
 def cam_up():
+    # Change the duty cycle to move the servo
+    duty_cycle1 += 1
+    if duty_cycle1 > 12.5:
+        duty_cycle1 = 12.5
+    pwm1.ChangeDutyCycle(duty_cycle1)  # 0 degrees
     print("camera up")
 
 def cam_down():
+    # Change the duty cycle to move the servo
+    duty_cycle1 -= 1
+    if duty_cycle1 < 2.5:
+        duty_cycle1 = 2.5
+    pwm1.ChangeDutyCycle(duty_cycle1)  # 0 degrees
     print("camera down")
 
 def cam_left():
+    # Change the duty cycle to move the servo
+    duty_cycle2 += 1
+    if duty_cycle2 > 12.5:
+        duty_cycle2 = 12.5
+    pwm2.ChangeDutyCycle(duty_cycle2)  # 0 degrees
     print("camera left")
 
 def cam_right():
+    # Change the duty cycle to move the servo
+    duty_cycle2 -= 1
+    if duty_cycle2 < 2.5:
+        duty_cycle2 = 2.5
+    pwm2.ChangeDutyCycle(duty_cycle2)  # 0 degrees
     print("camera right")
 
 # function to capture image
@@ -134,4 +168,9 @@ if __name__ == '__main__':
     try:
         app.run(host='0.0.0.0', port=80)
     finally:
+        # Stop PWM
+        pwm1.stop()
+        pwm2.stop()
+
+        # Clean up
         GPIO.cleanup()  # cleanup GPIO settings when the app is terminated

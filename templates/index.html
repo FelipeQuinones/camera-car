@@ -46,16 +46,27 @@
         </div>
     </div>
 
+    <div class="joystick-container">
+        <div id="joystick2">
+            <div id="handle2"></div>
+        </div>
+    </div>
+
     <h2>Camera Feed</h2>
     <img src="{{ url_for('video_feed') }}" style="width:100%;" />
 
     <script>
         var joystick = document.getElementById('joystick');
         var handle = document.getElementById('handle');
+        var joystick2 = document.getElementById('joystick2');
+        var handle2 = document.getElementById('handle2');
         var moveInterval;
 
         joystick.addEventListener('mousedown', startMove);
         joystick.addEventListener('touchstart', startMove);
+
+        joystick2.addEventListener('mousedown', moveHandle2);
+        joystick2.addEventListener('touchstart', moveHandle2);
 
         document.addEventListener('mouseup', stopMove);
         document.addEventListener('touchend', stopMove);
@@ -100,6 +111,26 @@
             moveInterval = setInterval(function() {
                 $.get('/move/' + direction);
             }, 100);
+        }
+
+        function moveHandle2(event) {
+            var rect = joystick.getBoundingClientRect();
+            var clientX = event.clientX || event.touches[0].clientX;
+            var clientY = event.clientY || event.touches[0].clientY;
+            var x = clientX - rect.left - handle.offsetWidth / 2;
+            var y = clientY - rect.top - handle.offsetHeight / 2;
+            var direction = Math.atan2(y - joystick.offsetHeight / 2, x - joystick.offsetWidth / 2);
+            if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
+                $.get('/camera/right');
+            } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
+                $.get('/camera/down');
+            } else if (direction < -Math.PI / 4 && direction > -3 * Math.PI / 4) {
+                $.get('/camera/up');
+            } else {
+                $.get('/camera/left');
+            }
+            handle2.style.top = y + 'px';
+            handle2.style.left = x + 'px';
         }
 
         function stopMoveCar() {
