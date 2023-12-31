@@ -58,6 +58,7 @@
         var joystick2 = document.getElementById('joystick2');
         var handle2 = document.getElementById('handle2');
         var moveInterval;
+        var moveInterval2;
 
         joystick.addEventListener('mousedown', startMove);
         joystick.addEventListener('touchstart', startMove);
@@ -105,7 +106,12 @@
             handle.style.left = x + 'px';
         }
 
-        
+        function startMoveCar(direction) {
+            clearInterval(moveInterval);
+            moveInterval = setInterval(function() {
+                $.get('/move/' + direction);
+            }, 100);
+        }
 
         function stopMoveCar() {
             clearInterval(moveInterval);
@@ -133,8 +139,8 @@
         }
 
         function startMoveCam(direction) {
-            clearInterval(moveInterval);
-            moveInterval = setInterval(function() {
+            clearInterval(moveInterval2);  // Use moveInterval2 instead of moveInterval
+            moveInterval2 = setInterval(function() {
                 $.get('/camera/' + direction);
             }, 100);
         }
