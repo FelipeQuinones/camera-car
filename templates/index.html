@@ -12,7 +12,7 @@
             align-items: center;
             height: 25vh;
         }
-        #joystick {
+        .joystick {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,7 +22,7 @@
             background-color: #ddd;
             border-radius: 50%;
         }
-        #handle {
+        .handle {
             position: absolute;
             width: 50px;
             height: 50px;
@@ -41,14 +41,14 @@
     <p>Click and drag the joystick to move the car.</p>
 
     <div class="joystick-container">
-        <div id="joystick">
-            <div id="handle"></div>
+        <div id="joystick" class="joystick">
+            <div id="handle" class="handle"></div>
         </div>
     </div>
 
     <div class="joystick-container">
-        <div id="joystick2">
-            <div id="handle2"></div>
+        <div id="joystick2" class="joystick">
+            <div id="handle2" class="handle"></div>
         </div>
     </div>
 
