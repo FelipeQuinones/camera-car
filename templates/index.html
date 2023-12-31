@@ -127,9 +127,9 @@
             if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
                 startMoveCam('right');
             } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
-                $.get('/camera/down');
+                startMoveCam('down');
             } else if (direction < -Math.PI / 4 && direction > -3 * Math.PI / 4) {
-                $.get('/camera/up');
+                startMoveCam('up');
             } else {
                 startMoveCam('left');
             }
