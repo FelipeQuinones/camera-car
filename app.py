@@ -9,11 +9,14 @@ in1 = 23
 in2 = 24
 in3 = 27
 in4 = 22
+servo1 = 5
+servo2 = 6
 
 GPIO.setup(in1, GPIO.OUT)
 GPIO.setup(in2, GPIO.OUT)
 GPIO.setup(in3, GPIO.OUT)
 GPIO.setup(in4, GPIO.OUT)
+GPIO.setup(servo1, GPIO.OUT)
 
 app = Flask(__name__)
 
@@ -44,6 +47,19 @@ def right():
     GPIO.output(in3, GPIO.LOW)
     GPIO.output(in4, GPIO.HIGH)
     print("right")
+
+# functions to control camera movement
+def cam_up():
+    print("camera up")
+
+def cam_down():
+    print("camera down")
+
+def cam_left():
+    print("camera left")
+
+def cam_right():
+    print("camera right")
 
 # function to capture image
 def gen(camera):
@@ -78,6 +94,21 @@ def move_car(direction):
     else:
         return 'Invalid direction', 400
     return 'Car moved ' + direction, 200
+
+@app.route('/camera/<direction>')
+def move_camera(direction):
+    # Control camera movement
+    if direction == 'up':
+        cam_up()
+    elif direction == 'down':
+        cam_down()
+    elif direction == 'left':
+        cam_left()
+    elif direction == 'right':
+        cam_right()
+    else:
+        return 'Invalid direction', 400
+    return 'Camera moved ' + direction, 200
 
 ############################################################################################################
 # class to capture image
