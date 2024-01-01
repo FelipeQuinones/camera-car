@@ -89,6 +89,8 @@
             handle2.style.left = '50%';
             document.removeEventListener('mousemove', moveHandle);
             document.removeEventListener('touchmove', moveHandle);
+            document.removeEventListener('mousemove', moveHandle2);
+            document.removeEventListener('touchmove', moveHandle2);
             stopMoveCar();
         }
 
@@ -132,6 +134,13 @@
             $.get('/move/stop');
         }
 
+        function startMove2(event) {
+            event.preventDefault();
+            moveHandle2(event);
+            document.addEventListener('mousemove', moveHandle2);
+            document.addEventListener('touchmove', moveHandle2);
+        }
+
         function moveHandle2(event) {
             var rect = joystick2.getBoundingClientRect(); // Use joystick2 instead of joystick
             var clientX = event.clientX || event.touches[0].clientX;
@@ -159,12 +168,7 @@
             }, 100);
         }
 
-        function startMove2(event) {
-            event.preventDefault();
-            moveHandle2(event);
-            document.addEventListener('mousemove', moveHandle2);
-            document.addEventListener('touchmove', moveHandle2);
-        }
+        
     </script>
 </body>
 </html>
