@@ -113,10 +113,7 @@
         }
 
         function startMoveCar(direction) {
-            clearInterval(moveInterval);
-            moveInterval = setInterval(function() {
-                $.get('/move/' + direction);
-            }, 100);
+            $.get('/move/' + direction);
         }
 
         function stopMoveCar() {
