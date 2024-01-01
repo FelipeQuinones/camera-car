@@ -92,6 +92,8 @@
             stopMoveCar();
         }
 
+        var lastDirection = null;
+
         function moveHandle(event) {
             var rect = joystick.getBoundingClientRect();
             var clientX = event.clientX || event.touches[0].clientX;
