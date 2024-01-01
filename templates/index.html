@@ -104,13 +104,13 @@
             
             var newDirection;
             if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
-                newDirection = 'left';
-            } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
-                newDirection = 'forward';
-            } else if (direction < -Math.PI / 4 && direction > -3 * Math.PI / 4) {
-                newDirection = 'backward';
-            } else {
                 newDirection = 'right';
+            } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
+                newDirection = 'backward';
+            } else if (direction < -Math.PI / 4 && direction > -3 * Math.PI / 4) {
+                newDirection = 'forward';
+            } else {
+                newDirection = 'left';
             }
 
             if (newDirection !== lastDirection) {
@@ -128,6 +128,7 @@
 
         function stopMoveCar() {
             clearInterval(moveInterval);
+            lastDirection = null;
             $.get('/move/stop');
         }
 
