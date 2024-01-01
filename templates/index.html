@@ -99,15 +99,23 @@
             var x = clientX - rect.left - handle.offsetWidth / 2;
             var y = clientY - rect.top - handle.offsetHeight / 2;
             var direction = Math.atan2(y - joystick.offsetHeight / 2, x - joystick.offsetWidth / 2);
+            
+            var newDirection;
             if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
-                startMoveCar('forward');
+                newDirection = 'left';
             } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
-                startMoveCar('right');
+                newDirection = 'forward';
             } else if (direction < -Math.PI / 4 && direction > -3 * Math.PI / 4) {
-                startMoveCar('left');
+                newDirection = 'backward';
             } else {
-                startMoveCar('backward');
+                newDirection = 'right';
             }
+
+            if (newDirection !== lastDirection) {
+                startMoveCar(newDirection);
+                lastDirection = newDirection;
+            }
+
             handle.style.top = y + 'px';
             handle.style.left = x + 'px';
         }
