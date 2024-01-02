@@ -1,6 +1,7 @@
 from flask import Flask, render_template, Response
 import RPi.GPIO as GPIO
 import cv2
+import motor
 
 # Start the Flask app
 app = Flask(__name__)
@@ -33,30 +34,6 @@ pwm1.start(duty_cycle1)
 
 pwm2 = GPIO.PWM(SERVO2, pwm_frequency)
 pwm2.start(duty_cycle2)
-
-
-# functions to control car movement
-def forward():
-    GPIO.output(IN1, GPIO.HIGH)
-    GPIO.output(IN2, GPIO.LOW)
-
-def backward():
-    GPIO.output(IN1, GPIO.LOW)
-    GPIO.output(IN2, GPIO.HIGH)
-
-def stop():
-    GPIO.output(IN1, GPIO.LOW)
-    GPIO.output(IN2, GPIO.LOW)
-    GPIO.output(IN3, GPIO.LOW)
-    GPIO.output(IN4, GPIO.LOW)
-
-def left():
-    GPIO.output(IN3, GPIO.HIGH)
-    GPIO.output(IN4, GPIO.LOW)
-
-def right():
-    GPIO.output(IN3, GPIO.LOW)
-    GPIO.output(IN4, GPIO.HIGH)
 
 # functions to control camera movement
 def cam_up(duty_cycle):
@@ -112,15 +89,23 @@ def video_feed():
 def move_car(direction):
     # Control car movement
     if direction == 'forward':
-        forward()
+        motor.forward()
     elif direction == 'backward':
-        backward()
+        motor.backward()
     elif direction == 'left':
-        left()
+        motor.left()
     elif direction == 'right':
-        right()
+        motor.right()
+    elif direction == 'forward_left':
+        motor.forward_left()
+    elif direction == 'forward_right':
+        motor.forward_right()
+    elif direction == 'backward_left':
+        motor.backward_left()
+    elif direction == 'backward_right':
+        motor.backward_right()
     elif direction == 'stop':
-        stop()
+        motor.stop()
     else:
         return 'Invalid direction', 400
     return 'Car moved ' + direction, 200

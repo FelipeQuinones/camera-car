@@ -82,6 +82,13 @@
             document.addEventListener('touchmove', moveHandle);
         }
 
+        function startMove2(event) {
+            event.preventDefault();
+            moveHandle2(event);
+            document.addEventListener('mousemove', moveHandle2);
+            document.addEventListener('touchmove', moveHandle2);
+        }
+
         function stopMove() {
             handle.style.top = '50%';
             handle.style.left = '50%';
@@ -95,7 +102,6 @@
         }
 
         var lastDirection = null;
-
         function moveHandle(event) {
             var rect = joystick.getBoundingClientRect();
             var clientX = event.clientX || event.touches[0].clientX;
@@ -105,14 +111,24 @@
             var direction = Math.atan2(y - joystick.offsetHeight / 2, x - joystick.offsetWidth / 2);
             
             var newDirection;
-            if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
+            if (direction > -Math.PI / 6 && direction < Math.PI / 6) {
                 newDirection = 'right';
-            } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
-                newDirection = 'backward';
-            } else if (direction < -Math.PI / 4 && direction > -3 * Math.PI / 4) {
+            } else if (direction > Math.PI / 6 && direction < Math.PI / 3) {
+                newDirection = 'forward_right';
+            } else if (direction > Math.PI / 3 && direction < 2 * Math.PI / 3) {
                 newDirection = 'forward';
-            } else {
+            } else if (direction > 2 * Math.PI / 3 && direction < 5 * Math.PI / 6) {
+                newDirection = 'forward_left';
+            } else if (direction > 5 * Math.PI / 6 || direction < -5 * Math.PI / 6) {
                 newDirection = 'left';
+            } else if (direction > -5 * Math.PI / 6 && direction < -2 * Math.PI / 3) {
+                newDirection = 'backward_left';
+            } else if (direction > -2 * Math.PI / 3 && direction < -Math.PI / 3) {
+                newDirection = 'backward';
+            } else if (direction > -Math.PI / 3 && direction < -Math.PI / 6) {
+                newDirection = 'backward_right';
+            } else {
+                newDirection = null;
             }
 
             if (newDirection !== lastDirection) {
@@ -132,13 +148,6 @@
             clearInterval(moveInterval);
             lastDirection = null;
             $.get('/move/stop');
-        }
-
-        function startMove2(event) {
-            event.preventDefault();
-            moveHandle2(event);
-            document.addEventListener('mousemove', moveHandle2);
-            document.addEventListener('touchmove', moveHandle2);
         }
 
         function moveHandle2(event) {
