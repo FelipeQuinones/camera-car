@@ -114,19 +114,19 @@
             if (direction > -Math.PI / 6 && direction < Math.PI / 6) {
                 newDirection = 'right';
             } else if (direction > Math.PI / 6 && direction < Math.PI / 3) {
-                newDirection = 'forward_right';
+                newDirection = 'backward_right';
             } else if (direction > Math.PI / 3 && direction < 2 * Math.PI / 3) {
-                newDirection = 'forward';
+                newDirection = 'backward';
             } else if (direction > 2 * Math.PI / 3 && direction < 5 * Math.PI / 6) {
-                newDirection = 'forward_left';
+                newDirection = 'backward_left';
             } else if (direction > 5 * Math.PI / 6 || direction < -5 * Math.PI / 6) {
                 newDirection = 'left';
             } else if (direction > -5 * Math.PI / 6 && direction < -2 * Math.PI / 3) {
-                newDirection = 'backward_left';
+                newDirection = 'forward_left';
             } else if (direction > -2 * Math.PI / 3 && direction < -Math.PI / 3) {
-                newDirection = 'backward';
+                newDirection = 'forward';
             } else if (direction > -Math.PI / 3 && direction < -Math.PI / 6) {
-                newDirection = 'backward_right';
+                newDirection = 'forward_right';
             } else {
                 newDirection = null;
             }
