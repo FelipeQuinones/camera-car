@@ -89,23 +89,23 @@ def video_feed():
 def move_car(direction):
     # Control car movement
     if direction == 'forward':
-        motor.forward()
+        motor.forward(IN1, IN2, IN3, IN4)
     elif direction == 'backward':
-        motor.backward()
+        motor.backward(IN1, IN2, IN3, IN4)
     elif direction == 'left':
-        motor.left()
+        motor.left(IN1, IN2, IN3, IN4)
     elif direction == 'right':
-        motor.right()
+        motor.right(IN1, IN2, IN3, IN4)
     elif direction == 'forward_left':
-        motor.forward_left()
+        motor.forward_left(IN1, IN2, IN3, IN4)
     elif direction == 'forward_right':
-        motor.forward_right()
+        motor.forward_right(IN1, IN2, IN3, IN4)
     elif direction == 'backward_left':
-        motor.backward_left()
+        motor.backward_left(IN1, IN2, IN3, IN4)
     elif direction == 'backward_right':
-        motor.backward_right()
+        motor.backward_right(IN1, IN2, IN3, IN4)
     elif direction == 'stop':
-        motor.stop()
+        motor.stop(IN1, IN2, IN3, IN4)
     else:
         return 'Invalid direction', 400
     return 'Car moved ' + direction, 200
