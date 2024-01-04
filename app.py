@@ -9,12 +9,12 @@ app = Flask(__name__)
 GPIO.setwarnings(False)  # Disable GPIO warnings
 GPIO.setmode(GPIO.BCM)
 
-IN1 = 23
-IN2 = 24
+IN1 = 23 #(02, M)
+IN2 = 24 #(02, L)
 IN3 = 27
 IN4 = 22
-SERVO1 = 5
-SERVO2 = 6
+SERVO1 = 6 # servo izquierda/derecha
+SERVO2 = 5 # servo arriba/abajo
 
 GPIO.setup(IN1, GPIO.OUT)
 GPIO.setup(IN2, GPIO.OUT)
@@ -144,7 +144,7 @@ class Camera(object):
             return jpeg.tobytes()
         else:
             # If reading the frame was not successful, return a default image
-            with open('default.jpg', 'rb') as f:
+            with open('images/default.jpg', 'rb') as f:
                 return f.read()
 
 if __name__ == '__main__':
