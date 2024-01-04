@@ -25,8 +25,8 @@ GPIO.setup(SERVO2, GPIO.OUT)
 
 # Set PWM parameters
 pwm_frequency = 50  # Frequency in Hz
-duty_cycle1 = 7.5    # Duty cycle (percentage)
-duty_cycle2 = 7.5    # Duty cycle (percentage)
+duty_cycle1 = 1.5    # Duty cycle (percentage)
+duty_cycle2 = 1.5    # Duty cycle (percentage)
 
 # Start PWM
 pwm1 = GPIO.PWM(SERVO1, pwm_frequency)
