@@ -89,6 +89,7 @@ def move_camera_continuous(direction):
             duty_cycle2 = cam_left(duty_cycle2)
         elif direction == 'right':
             duty_cycle2 = cam_right(duty_cycle2)
+    cam_stop()
 
 # function to capture image
 def gen(camera):
