@@ -181,10 +181,7 @@
         }
 
         function startMoveCam(direction) {
-            clearInterval(moveInterval);
-            moveInterval = setInterval(function() {
-                $.get('/camera/' + direction);
-            }, 100);
+            $.get('/camera/' + direction);
         }
 
         function stopMoveCam() {
