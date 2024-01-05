@@ -49,8 +49,8 @@ def cam_up(duty_cycle):
 def cam_down(duty_cycle):
     # Change the duty cycle to move the servo
     duty_cycle -= STEPS
-    if duty_cycle < 1.5:
-        duty_cycle = 1.5
+    if duty_cycle < 0.5:
+        duty_cycle = 0.5
     pwm1.ChangeDutyCycle(duty_cycle)  # 0 degrees
     return duty_cycle
 
