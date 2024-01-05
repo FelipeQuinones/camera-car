@@ -28,6 +28,8 @@ pwm_frequency = 50  # Frequency in Hz
 duty_cycle1 = 7.5   # Duty cycle (percentage)
 duty_cycle2 = 7.5   # Duty cycle (percentage)
 
+stop_flag = False
+
 # Start PWM
 pwm1 = GPIO.PWM(SERVO1, pwm_frequency)
 pwm1.start(duty_cycle1)
@@ -121,21 +123,32 @@ def move_car(direction):
 
 @app.route('/camera/<direction>')
 def move_camera(direction):
-    global duty_cycle1, duty_cycle2
+    global duty_cycle1, duty_cycle2, stop_flag
+    stop_flag = False
+
     # Control camera movement
     if direction == 'up':
-        duty_cycle1 = cam_up(duty_cycle1)
+        while not stop_flag:
+            duty_cycle1 = cam_up(duty_cycle1)
     elif direction == 'down':
-        duty_cycle1 = cam_down(duty_cycle1)
+        while not stop_flag:
+            duty_cycle1 = cam_down(duty_cycle1)
     elif direction == 'left':
-        duty_cycle2 = cam_left(duty_cycle2)
+        while not stop_flag:
+            duty_cycle2 = cam_left(duty_cycle2)
     elif direction == 'right':
-        duty_cycle2 = cam_right(duty_cycle2)
-    elif direction == 'stop':
-        cam_stop()
+        while not stop_flag:
+            duty_cycle2 = cam_right(duty_cycle2)
     else:
         return 'Invalid direction', 400
     return 'Camera moved ' + direction, 200
+
+@app.route('/camera/stop')
+def stop_camera():
+    global stop_flag
+    stop_flag = True
+    cam_stop()
+    return "Stopping camera"
 
 ############################################################################################################
 # class to capture image
