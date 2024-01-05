@@ -2,6 +2,7 @@ from flask import Flask, render_template, Response
 import RPi.GPIO as GPIO
 import cv2
 import motor
+import threading
 
 # Start the Flask app
 app = Flask(__name__)
@@ -28,7 +29,7 @@ pwm_frequency = 50  # Frequency in Hz
 duty_cycle1 = 7.5   # Duty cycle (percentage)
 duty_cycle2 = 7.5   # Duty cycle (percentage)
 
-stop_flag = False
+stop_flag = threading.Event()
 
 # Start PWM
 pwm1 = GPIO.PWM(SERVO1, pwm_frequency)
@@ -79,6 +80,18 @@ def cam_stop():
     pwm1.ChangeDutyCycle(0)
     pwm2.ChangeDutyCycle(0)
 
+def move_camera_continuous(direction):
+    global duty_cycle1, duty_cycle2
+    while not stop_flag.is_set():
+        if direction == 'up':
+            duty_cycle1 = cam_up(duty_cycle1)
+        elif direction == 'down':
+            duty_cycle1 = cam_down(duty_cycle1)
+        elif direction == 'left':
+            duty_cycle2 = cam_left(duty_cycle2)
+        elif direction == 'right':
+            duty_cycle2 = cam_right(duty_cycle2)
+
 # function to capture image
 def gen(camera):
     while True:
@@ -123,33 +136,15 @@ def move_car(direction):
 
 @app.route('/camera/<direction>')
 def move_camera(direction):
-    global duty_cycle1, duty_cycle2, stop_flag
-    stop_flag = False
-
-    # Control camera movement
-    if direction == 'up':
-        while not stop_flag:
-            duty_cycle1 = cam_up(duty_cycle1)
-    elif direction == 'down':
-        while not stop_flag:
-            duty_cycle1 = cam_down(duty_cycle1)
-    elif direction == 'left':
-        while not stop_flag:
-            duty_cycle2 = cam_left(duty_cycle2)
-    elif direction == 'right':
-        while not stop_flag:
-            duty_cycle2 = cam_right(duty_cycle2)
-    else:
-        return 'Invalid direction', 400
-    cam_stop()
-    return 'Camera moved ' + direction, 200
+    stop_flag.clear()
+    t = threading.Thread(target=move_camera_continuous, args=(direction,))
+    t.start()
+    return 'Camera moving ' + direction, 200
 
 @app.route('/camera/stop')
 def stop_camera():
-    global stop_flag
-    cam_stop()
-    stop_flag = True
-    return "Stopping camera"
+    stop_flag.set()
+    return 'Camera stopped', 200
 
 ############################################################################################################
 # class to capture image
