@@ -99,6 +99,7 @@
             document.removeEventListener('mousemove', moveHandle2);
             document.removeEventListener('touchmove', moveHandle2);
             stopMoveCar();
+            stopMoveCam();
         }
 
         var lastDirection = null;
@@ -150,6 +151,7 @@
             $.get('/move/stop');
         }
 
+        var lastDirection2 = null;
         function moveHandle2(event) {
             var rect = joystick2.getBoundingClientRect(); // Use joystick2 instead of joystick
             var clientX = event.clientX || event.touches[0].clientX;
@@ -158,16 +160,24 @@
             var y = clientY - rect.top - handle2.offsetHeight / 2; // Use handle2 instead of handle
             var direction = Math.atan2(y - joystick2.offsetHeight / 2, x - joystick2.offsetWidth / 2); // Use joystick2 instead of joystick
             if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
-                startMoveCam('right');
+                newDirection = 'right';
             } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
-                startMoveCam('up');
+                newDirection = 'up';
+            } else if (direction > 3 * Math.PI / 4 || direction < -3 * Math.PI / 4) {
+                newDirection = 'left';
             } else if (direction < -Math.PI / 4 && direction > -3 * Math.PI / 4) {
-                startMoveCam('down');
+                newDirection = 'down';
             } else {
-                startMoveCam('left');
+                newDirection = null;
             }
+
             handle2.style.top = y + 'px';
             handle2.style.left = x + 'px';
+
+            if (newDirection !== lastDirection2) {
+                startMoveCam(newDirection);
+                lastDirection2 = newDirection;
+            }
         }
 
         function startMoveCam(direction) {
@@ -177,7 +187,11 @@
             }, 100);
         }
 
-        
+        function stopMoveCam() {
+            clearInterval(moveInterval);
+            $.get('/camera/stop');
+        }
+
     </script>
 </body>
 </html>

@@ -70,6 +70,11 @@ def cam_right(duty_cycle):
     pwm2.ChangeDutyCycle(duty_cycle)  # 0 degrees
     return duty_cycle
 
+def cam_stop():
+    # Stop the PWM
+    pwm1.ChangeDutyCycle(0)
+    pwm2.ChangeDutyCycle(0)
+
 # function to capture image
 def gen(camera):
     while True:
@@ -125,6 +130,8 @@ def move_camera(direction):
         duty_cycle2 = cam_left(duty_cycle2)
     elif direction == 'right':
         duty_cycle2 = cam_right(duty_cycle2)
+    elif direction == 'stop':
+        cam_stop()
     else:
         return 'Invalid direction', 400
     return 'Camera moved ' + direction, 200
