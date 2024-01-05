@@ -189,6 +189,7 @@
 
         function stopMoveCam() {
             clearInterval(moveInterval);
+            lastDirection2 = null;
             $.get('/camera/stop');
         }
 
