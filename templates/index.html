@@ -147,7 +147,7 @@
 
         function stopMoveCar() {
             clearInterval(moveInterval);
-            lastDirection = null;
+            lastDirection = 'stop';
             $.get('/move/stop');
         }
 
@@ -186,7 +186,7 @@
 
         function stopMoveCam() {
             clearInterval(moveInterval);
-            lastDirection2 = null;
+            lastDirection2 = 'stop';
             $.get('/camera/stop');
         }
 
