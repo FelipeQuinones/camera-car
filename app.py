@@ -38,7 +38,7 @@ pwm1.start(duty_cycle1)
 pwm2 = GPIO.PWM(SERVO2, pwm_frequency)
 pwm2.start(duty_cycle2)
 
-STEPS = 0.001  # Duty cycle increase/decrease amount for each servo movement
+STEPS = 0.00001  # Duty cycle increase/decrease amount for each servo movement
 
 # functions to control camera movement
 def cam_down(duty_cycle):
@@ -46,7 +46,6 @@ def cam_down(duty_cycle):
     duty_cycle += STEPS
     if duty_cycle > 11:
         duty_cycle = 11
-    print(duty_cycle)
     pwm1.ChangeDutyCycle(duty_cycle)  # 0 degrees
     return duty_cycle
 
@@ -55,7 +54,6 @@ def cam_up(duty_cycle):
     duty_cycle -= STEPS
     if duty_cycle < 4:
         duty_cycle = 4
-    print(duty_cycle)
     pwm1.ChangeDutyCycle(duty_cycle)  # 0 degrees
     return duty_cycle
 
