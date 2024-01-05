@@ -37,7 +37,7 @@ pwm1.start(duty_cycle1)
 pwm2 = GPIO.PWM(SERVO2, pwm_frequency)
 pwm2.start(duty_cycle2)
 
-STEPS = 0.1  # Duty cycle increase/decrease amount for each servo movement
+STEPS = 0.001  # Duty cycle increase/decrease amount for each servo movement
 
 # functions to control camera movement
 def cam_down(duty_cycle):
@@ -141,13 +141,14 @@ def move_camera(direction):
             duty_cycle2 = cam_right(duty_cycle2)
     else:
         return 'Invalid direction', 400
+    cam_stop()
     return 'Camera moved ' + direction, 200
 
 @app.route('/camera/stop')
 def stop_camera():
     global stop_flag
-    stop_flag = True
     cam_stop()
+    stop_flag = True
     return "Stopping camera"
 
 ############################################################################################################
