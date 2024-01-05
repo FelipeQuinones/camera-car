@@ -162,11 +162,11 @@
             if (direction > -Math.PI / 4 && direction < Math.PI / 4) {
                 newDirection = 'right';
             } else if (direction > Math.PI / 4 && direction < 3 * Math.PI / 4) {
-                newDirection = 'up';
+                newDirection = 'down';
             } else if (direction > 3 * Math.PI / 4 || direction < -3 * Math.PI / 4) {
                 newDirection = 'left';
             } else if (direction < -Math.PI / 4 && direction > -3 * Math.PI / 4) {
-                newDirection = 'down';
+                newDirection = 'up';
             } else {
                 newDirection = null;
             }
