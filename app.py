@@ -41,14 +41,14 @@ STEPS = 1  # Duty cycle increase/decrease amount for each servo movement
 def cam_up(duty_cycle):
     # Change the duty cycle to move the servo
     duty_cycle += STEPS
-
+    print(duty_cycle)
     pwm1.ChangeDutyCycle(duty_cycle)  # 0 degrees
     return duty_cycle
 
 def cam_down(duty_cycle):
     # Change the duty cycle to move the servo
     duty_cycle -= STEPS
-
+    print(duty_cycle)
     pwm1.ChangeDutyCycle(duty_cycle)  # 0 degrees
     return duty_cycle
 
