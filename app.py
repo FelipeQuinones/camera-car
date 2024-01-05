@@ -117,6 +117,7 @@ def move_car(direction):
 
 @app.route('/camera/<direction>')
 def move_camera(direction):
+    global duty_cycle1, duty_cycle2
     # Control camera movement
     if direction == 'up':
         duty_cycle1 = cam_up(duty_cycle1)
