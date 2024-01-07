@@ -40,56 +40,18 @@ pwm2.start(duty_cycle2)
 
 STEPS = 0.00005  # Duty cycle increase/decrease amount for each servo movement
 
-# functions to control camera movement
-def cam_down(duty_cycle):
-    # Change the duty cycle to move the servo
-    duty_cycle += STEPS
-    if duty_cycle > 11:
-        duty_cycle = 11
-    pwm1.ChangeDutyCycle(duty_cycle)  # 0 degrees
-    return duty_cycle
-
-def cam_up(duty_cycle):
-    # Change the duty cycle to move the servo
-    duty_cycle -= STEPS
-    if duty_cycle < 4:
-        duty_cycle = 4
-    pwm1.ChangeDutyCycle(duty_cycle)  # 0 degrees
-    return duty_cycle
-
-def cam_left(duty_cycle):
-    # Change the duty cycle to move the servo
-    duty_cycle += STEPS
-    if duty_cycle > 11:
-        duty_cycle = 11
-    pwm2.ChangeDutyCycle(duty_cycle)  # 0 degrees
-    return duty_cycle
-
-def cam_right(duty_cycle):
-    # Change the duty cycle to move the servo
-    duty_cycle -= STEPS
-    if duty_cycle < 4:
-        duty_cycle = 4
-    pwm2.ChangeDutyCycle(duty_cycle)  # 0 degrees
-    return duty_cycle
-
-def cam_stop():
-    # Stop the PWM
-    pwm1.ChangeDutyCycle(0)
-    pwm2.ChangeDutyCycle(0)
-
 def move_camera_continuous(direction):
     global duty_cycle1, duty_cycle2
     while not stop_flag.is_set():
         if direction == 'up':
-            duty_cycle1 = cam_up(duty_cycle1)
+            duty_cycle1 = motor.cam_up(duty_cycle1, pwm1)
         elif direction == 'down':
-            duty_cycle1 = cam_down(duty_cycle1)
+            duty_cycle1 = motor.cam_down(duty_cycle1, pwm1)
         elif direction == 'left':
-            duty_cycle2 = cam_left(duty_cycle2)
+            duty_cycle2 = motor.cam_left(duty_cycle2, pwm2)
         elif direction == 'right':
-            duty_cycle2 = cam_right(duty_cycle2)
-    cam_stop()
+            duty_cycle2 = motor.cam_right(duty_cycle2, pwm2)
+    motor.cam_stop(pwm1, pwm2)
 
 # function to capture image
 def gen(camera):
@@ -143,7 +105,7 @@ def move_camera(direction):
 @app.route('/camera/stop')
 def stop_camera():
     stop_flag.set()
-    cam_stop()
+    cam_stop(pwm1, pwm2)
     return 'Camera stopped', 200
 
 ############################################################################################################
