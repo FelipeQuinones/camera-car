@@ -64,15 +64,17 @@
         <img src="{{ url_for('video_feed') }}" style="width:50%; border: 10px solid black;" />
     </div>
 
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <button class="button" onclick="$.get('/camera/center')">Center</button>
-    </div>
+    
 
     <div class="joystick-container-container">
         <div class="joystick-container">
             <div id="joystick" class="joystick">
                 <div id="handle" class="handle"></div>
             </div>
+        </div>
+
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="button" onclick="$.get('/camera/center')">Center</button>
         </div>
 
         <div class="joystick-container">
