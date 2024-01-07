@@ -2,6 +2,7 @@ from flask import Flask, render_template, Response
 import RPi.GPIO as GPIO
 import cv2
 import motor
+import time
 import threading
 
 # Start the Flask app
@@ -106,6 +107,7 @@ def move_camera(direction):
 @app.route('/camera/center')
 def center_camera():
     motor.cam_center(pwm1, pwm2)
+    time.sleep(0.5)
     motor.cam_stop(pwm1, pwm2)
     return 'Camera centered', 200
 
