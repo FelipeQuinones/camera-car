@@ -137,7 +137,7 @@ class Camera(object):
         success, image = self.video.read()
         if success:
             # Resize the image
-            image = cv2.resize(image, (640, 480))  # Adjust the size as needed
+            image = cv2.resize(image, (320, 240))  # Adjust the size as needed
 
             # If reading the frame was successful, encode the image
             _, jpeg = cv2.imencode('.jpg', image)
