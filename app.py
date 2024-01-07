@@ -106,6 +106,7 @@ def move_camera(direction):
 @app.route('/camera/center')
 def center_camera():
     motor.cam_center(pwm1, pwm2)
+    motor.cam_stop(pwm1, pwm2)
     return 'Camera centered', 200
 
 @app.route('/camera/stop')
