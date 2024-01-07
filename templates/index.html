@@ -36,6 +36,12 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+        .button {
+            width: 100px;
+            height: 100px;
+            background-color: #bbb;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
@@ -45,7 +51,7 @@
     </div>
 
     <div style="display: flex; justify-content: center; align-items: center;">
-        <button onclick="$.get('/camera/center')">Center</button>
+        <button class="button" onclick="$.get('/camera/center')">Center</button>
     </div>
 
     <div class="joystick-container-container">

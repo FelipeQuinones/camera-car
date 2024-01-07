@@ -106,6 +106,7 @@ def move_camera(direction):
 @app.route('/camera/center')
 def center_camera():
     motor.cam_center(pwm1, pwm2)
+    time.sleep(0.05)
     motor.cam_stop(pwm1, pwm2)
     return 'Camera centered', 200
 
@@ -124,7 +125,7 @@ class Camera(object):
         fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
         self.video.set(cv2.CAP_PROP_FOURCC, fourcc)
         # Set the frame rate to 15 FPS
-        self.video.set(cv2.CAP_PROP_FPS, 10)
+        self.video.set(cv2.CAP_PROP_FPS, 15)
 
     def __del__(self):
         self.video.release()
