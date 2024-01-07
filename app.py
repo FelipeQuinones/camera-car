@@ -151,6 +151,9 @@ def stop_camera():
 class Camera(object):
     def __init__(self):
         self.video = cv2.VideoCapture(0)  # Use 0 for the default camera
+        # Set the codec to MJPEG
+        fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+        self.video.set(cv2.CAP_PROP_FOURCC, fourcc)
 
     def __del__(self):
         self.video.release()
@@ -158,6 +161,9 @@ class Camera(object):
     def get_frame(self):
         success, image = self.video.read()
         if success:
+            # Resize the image
+            image = cv2.resize(image, (640, 480))  # Adjust the size as needed
+
             # If reading the frame was successful, encode the image
             _, jpeg = cv2.imencode('.jpg', image)
             return jpeg.tobytes()
