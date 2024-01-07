@@ -105,6 +105,7 @@ def move_camera(direction):
 
 @app.route('/camera/center')
 def center_camera():
+    global duty_cycle1, duty_cycle2
     motor.cam_center(pwm1, pwm2)
     duty_cycle1 = 7.5
     duty_cycle2 = 7.5
