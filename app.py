@@ -163,7 +163,7 @@ class Camera(object):
             return jpeg.tobytes()
         else:
             # If reading the frame was not successful, return a default image
-            with open('images/default.jpg', 'rb') as f:
+            with open('/home/felipe/Projects/camera-car/images/default.jpg', 'rb') as f:
                 return f.read()
 
 if __name__ == '__main__':
