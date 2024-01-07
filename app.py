@@ -154,6 +154,8 @@ class Camera(object):
         # Set the codec to MJPEG
         fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
         self.video.set(cv2.CAP_PROP_FOURCC, fourcc)
+        # Set the frame rate to 15 FPS
+        self.video.set(cv2.CAP_PROP_FPS, 15)
 
     def __del__(self):
         self.video.release()
