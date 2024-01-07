@@ -33,10 +33,10 @@ stop_flag = threading.Event()
 
 # Start PWM
 pwm1 = GPIO.PWM(SERVO1, pwm_frequency)
-pwm1.start(duty_cycle1)
-
 pwm2 = GPIO.PWM(SERVO2, pwm_frequency)
-pwm2.start(duty_cycle2)
+
+motor.cam_center(pwm1, pwm2)
+motor.cam_stop(pwm1, pwm2)
 
 STEPS = 0.00005  # Duty cycle increase/decrease amount for each servo movement
 
@@ -105,7 +105,7 @@ def move_camera(direction):
 @app.route('/camera/stop')
 def stop_camera():
     stop_flag.set()
-    cam_stop(pwm1, pwm2)
+    motor.cam_stop(pwm1, pwm2)
     return 'Camera stopped', 200
 
 ############################################################################################################
