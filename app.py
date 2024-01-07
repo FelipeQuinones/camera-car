@@ -26,14 +26,13 @@ GPIO.setup(SERVO2, GPIO.OUT)
 
 # Set PWM parameters
 pwm_frequency = 50  # Frequency in Hz
-duty_cycle1 = 7.5   # Duty cycle (percentage)
-duty_cycle2 = 7.5   # Duty cycle (percentage)
-
 stop_flag = threading.Event()
 
 # Start PWM
 pwm1 = GPIO.PWM(SERVO1, pwm_frequency)
 pwm2 = GPIO.PWM(SERVO2, pwm_frequency)
+pwm1.start(7.5)
+pwm2.start(7.5)
 
 motor.cam_center(pwm1, pwm2)
 motor.cam_stop(pwm1, pwm2)
